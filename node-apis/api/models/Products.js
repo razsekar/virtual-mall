@@ -8,7 +8,10 @@
 module.exports = {
 
   attributes: {
-
+    name: 'string',
+    quantity: 'number',
+    price: 'number',
+    image: 'string'
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
