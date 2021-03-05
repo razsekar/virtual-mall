@@ -1,2 +1,5 @@
 ./node-api/node_modules
 ./react-app/node_modules
+keys
+vm_user
+./node-apis/package-lock.json
