@@ -3,3 +3,4 @@
 keys
 vm_user
 ./node-apis/package-lock.json
+./react-app/yarn.lock

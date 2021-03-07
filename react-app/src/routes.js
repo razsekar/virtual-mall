@@ -15,6 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+import CartSummary from "views/CartSummary";
 import Dashboard from "views/Dashboard.js";
 import Icons from "views/Icons.js";
 import Map from "views/Map.js";
@@ -32,7 +33,16 @@ var routes = [
     icon: "tim-icons icon-chart-pie-36",
     component: Dashboard,
     layout: "/admin",
-  }/* ,
+  },
+  {
+    path: "/cart-summary",
+    redirect: true,
+    name: "Cart Summary",
+    //rtlName: "قائمة الجدول",
+    //icon: "tim-icons icon-puzzle-10",
+    component: CartSummary,
+    layout: "/admin",
+  },/* ,
   {
     path: "/icons",
     name: "Icons",
