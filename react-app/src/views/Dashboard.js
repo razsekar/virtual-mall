@@ -61,7 +61,7 @@ function Dashboard(props) {
         <Row>
           <Col xs="12">
             <Card className="card-chart"> 
-            <iframe src="https://snapshot.raintank.io/dashboard/snapshot/OaDdqt0cdZ23ZizYe2clLjFgiYoBpMNu" height="450" frameborder="0"></iframe>
+            <iframe src="http://localhost:3000/d/TdX3jM8Gk/virtual-mall-dashboard?from=0&to=0&orgId=1&viewPanel=2" height="500" frameborder="0"></iframe>
             </Card>
           </Col>
         </Row>
