@@ -33,7 +33,13 @@ import {
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 
-function Dashboard(props) {
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { addToCart } from '../actions'
+import { getVisibleProducts } from '../reducers/products'
+
+const Dashboard = ({ products, addToCart }) => {
+  console.log(products);
   const [productsList, setProductsList] = React.useState([])
 
   let localCart = []
@@ -50,7 +56,7 @@ function Dashboard(props) {
   const [itemQuantity, setItemQuantity] = React.useState(localItemQuantity)
   const [cartTotal, setCartTotal] = React.useState(0)
 
-  const addToCart = (item) => {
+  /* const addToCart = (item) => {
     setCartItems(oldItems => {
       let index = oldItems.findIndex(i => i.id === item.id)
       if(index === -1){//Item doesn't exist in cart
@@ -98,7 +104,7 @@ function Dashboard(props) {
         ]
       }
     })
-  }
+  } */
 
   const removeFromCart = (item) => {
     setCartItems(oldItems => {
@@ -136,20 +142,6 @@ function Dashboard(props) {
     setCartTotal(total);
 
   },[itemQuantity])
-
-  useEffect(()=>{
-    const request = axios.get(
-      'http://localhost:1337/products'
-    );
-    request
-      .then(response => {
-         if(response.status === 200) 
-          setProductsList(response.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  },[])
 
   const updateInventory = (id, quantity) => {
     console.log(id, quantity)
@@ -198,7 +190,7 @@ function Dashboard(props) {
                   </thead>
                   <tbody>
                   {
-                    productsList.map(product => {
+                    products.map(product => {
                       return <tr key={`${product.id}`}>
                         <td>
                           <Card style={{ width: '10rem', margin: '10px' }}>
@@ -240,4 +232,22 @@ function Dashboard(props) {
   );
 }
 
-export default Dashboard;
+Dashboard.propTypes = {
+  products: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired
+  })).isRequired,
+  addToCart: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+  products: getVisibleProducts(state.products)
+})
+
+export default connect(
+  mapStateToProps,
+  { addToCart }
+)(Dashboard)

@@ -30,17 +30,38 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import ThemeContextWrapper from "./components/ThemeWrapper/ThemeWrapper";
 import BackgroundColorWrapper from "./components/BackgroundColorWrapper/BackgroundColorWrapper";
 
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import { createLogger } from 'redux-logger'
+import thunk from 'redux-thunk'
+import reducer from './reducers'
+import { getAllProducts } from './actions'
+
+const middleware = [ thunk ];
+if (process.env.NODE_ENV !== 'production') {
+  middleware.push(createLogger());
+}
+
+const store = createStore(
+  reducer,
+  applyMiddleware(...middleware)
+)
+
+store.dispatch(getAllProducts())
+
 ReactDOM.render(
-  <ThemeContextWrapper>
-    <BackgroundColorWrapper>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-          <Route path="/rtl" render={(props) => <RTLLayout {...props} />} />
-          <Redirect from="/" to="/admin/dashboard" />
-        </Switch>
-      </BrowserRouter>
-    </BackgroundColorWrapper>
-  </ThemeContextWrapper>,
+  <Provider store={store}>
+    <ThemeContextWrapper>
+      <BackgroundColorWrapper>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
+            <Route path="/rtl" render={(props) => <RTLLayout {...props} />} />
+            <Redirect from="/" to="/admin/dashboard" />
+          </Switch>
+        </BrowserRouter>
+      </BackgroundColorWrapper>
+    </ThemeContextWrapper>
+  </Provider>,
   document.getElementById("root")
 );
