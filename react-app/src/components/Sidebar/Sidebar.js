@@ -60,7 +60,7 @@ function Sidebar(props) {
   const { routes, rtlActive, logo } = props;
   let logoImg = null;
   let logoText = null;
-  if (logo !== undefined) {
+  /* if (logo !== undefined) {
     if (logo.outterLink !== undefined) {
       logoImg = (
         <a
@@ -106,7 +106,7 @@ function Sidebar(props) {
         </Link>
       );
     }
-  }
+  } */
   return (
     <BackgroundColorContext.Consumer>
       {({ color }) => (
