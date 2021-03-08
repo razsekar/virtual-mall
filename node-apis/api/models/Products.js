@@ -9,7 +9,7 @@ module.exports = {
 
   attributes: {
     name: 'string',
-    quantity: 'number',
+    inventory: {columnName: 'quantity', type: 'number'},
     price: 'number',
     image: 'string'
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
