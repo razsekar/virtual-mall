@@ -1,7 +1,6 @@
 /**
  * Mocking client-server processing
  */
-import _products from './products.json'
 import axios from "axios";
 
 const TIMEOUT = 30

@@ -35,11 +35,14 @@ import { NavLink } from "react-router-dom";
 
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { addToCart } from '../actions'
+import { addToCart, removeFromCart } from '../actions'
 import { getVisibleProducts } from '../reducers/products'
+import ProductsContainer from './ProductsContainer'
+import { getCartProducts } from "reducers";
+import { getTotal } from "reducers";
 
-const Dashboard = ({ products, addToCart }) => {
-  console.log(products);
+const Dashboard = ({ products, cartProducts, addToCart, removeFromCart }) => {
+  console.log(products, cartProducts);
   const [productsList, setProductsList] = React.useState([])
 
   let localCart = []
@@ -55,6 +58,11 @@ const Dashboard = ({ products, addToCart }) => {
   const [cartItems, setCartItems] = React.useState(localCart)
   const [itemQuantity, setItemQuantity] = React.useState(localItemQuantity)
   const [cartTotal, setCartTotal] = React.useState(0)
+
+  const getQuantityById = (id) => {
+    let product = cartProducts.find(product => product.id === id);
+    return typeof product !== 'undefined' ? product.quantity : 0
+  }
 
   /* const addToCart = (item) => {
     setCartItems(oldItems => {
@@ -106,7 +114,7 @@ const Dashboard = ({ products, addToCart }) => {
     })
   } */
 
-  const removeFromCart = (item) => {
+  /* const removeFromCart = (item) => {
     setCartItems(oldItems => {
       let index = oldItems.findIndex(i => i.id === item.id)
       if(index !== -1){
@@ -128,7 +136,7 @@ const Dashboard = ({ products, addToCart }) => {
       ]
       
     })
-  }
+  } */
 
   useEffect(()=>{
     localStorage.setItem('cart', JSON.stringify(cartItems))
@@ -200,9 +208,9 @@ const Dashboard = ({ products, addToCart }) => {
                         <td>{product.name}</td>
                         <td>
                           <ButtonGroup className="quantity-buttons" aria-label="Basic example">
-                            <Button variant="secondary" onClick = {()=> removeFromCart(product)}>-</Button>
-                            <Button variant="secondary">{itemQuantity[product.id] | 0}</Button>
-                            <Button variant="secondary" onClick = {()=> addToCart(product)}>+</Button>
+                            <Button variant="secondary" onClick = {()=> removeFromCart(product.id)}>-</Button>
+                            <Button variant="secondary">{getQuantityById(product.id) | 0}</Button>
+                            <Button variant="secondary" onClick = {()=> addToCart(product.id)}>+</Button>
                           </ButtonGroup>
                         </td>
                         <td className="text-center">₹ {product.price}</td>
@@ -227,6 +235,11 @@ const Dashboard = ({ products, addToCart }) => {
             </Card>
           </Col>
         </Row>
+        {/* <Row>
+          <Col md="12">
+            <ProductsContainer />
+          </Col>
+        </Row> */}
       </div>
     </>
   );
@@ -238,16 +251,19 @@ Dashboard.propTypes = {
     image: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
-    quantity: PropTypes.number.isRequired
+    inventory: PropTypes.number.isRequired
   })).isRequired,
+  total: PropTypes.string,
   addToCart: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  products: getVisibleProducts(state.products)
+  products: getVisibleProducts(state.products),
+  cartProducts: getCartProducts(state),
+  total: getTotal(state)
 })
 
 export default connect(
   mapStateToProps,
-  { addToCart }
+  { addToCart, removeFromCart }
 )(Dashboard)
