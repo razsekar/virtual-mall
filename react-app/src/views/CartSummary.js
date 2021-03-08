@@ -28,8 +28,12 @@ import {
   Col,
 } from "reactstrap";
 
-function CartSummary() {
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { getTotal, getCartProducts } from '../reducers'
 
+const CartSummary = ({ products, total }) => {
+    console.log(products, total)
     let localCart = []
     let localItemQuantity = {}
     if(localStorage.getItem('cart')){
@@ -97,4 +101,22 @@ function CartSummary() {
   );
 }
 
-export default CartSummary;
+CartSummary.propTypes = {
+  products: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired
+  })).isRequired,
+  total: PropTypes.string,
+}
+
+const mapStateToProps = (state) => ({
+  products: getCartProducts(state),
+  total: getTotal(state)
+})
+
+export default connect(
+  mapStateToProps
+)(CartSummary)

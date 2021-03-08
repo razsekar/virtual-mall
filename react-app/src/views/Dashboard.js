@@ -41,8 +41,8 @@ import ProductsContainer from './ProductsContainer'
 import { getCartProducts } from "reducers";
 import { getTotal } from "reducers";
 
-const Dashboard = ({ products, cartProducts, addToCart, removeFromCart }) => {
-  console.log(products, cartProducts);
+const Dashboard = ({ products, cartProducts, addToCart, removeFromCart, total }) => {
+  console.log(products, cartProducts, total);
   const [productsList, setProductsList] = React.useState([])
 
   let localCart = []
@@ -219,8 +219,8 @@ const Dashboard = ({ products, cartProducts, addToCart, removeFromCart }) => {
                   }
                     <tr>
                       <td colSpan="2"><b>Total</b></td>
-                      <td><b>₹ {cartTotal}</b></td>
-                      <td className="text-center"><Button color="primary" disabled={cartTotal === 0}>
+                      <td><b>₹ {total}</b></td>
+                      <td className="text-center"><Button color="primary" disabled={total == 0}>
                         <NavLink
                           to={'cart-summary'}
                           className="nav-link"
